@@ -2,6 +2,7 @@ package com.coltandjohn.cryptidmod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,10 +14,15 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Collectors;
+
+import static net.minecraft.item.ItemGroup.TAB_MISC;
 
 // The value here should match an entry in the META-INF/mods.toml file
 // it tells forge that this file is the entrypoint for the mod
@@ -25,6 +31,11 @@ public class CryptidMod
 {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
+
+    // create our item register
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "cryptidmod");
+    // instantiate the cheenis scepter
+    public static final RegistryObject<Item> CHEENIS_SCEPTER = ITEMS.register("cheenis_scepter", () -> new Item(new Item.Properties().stacksTo(64).tab(TAB_MISC)));
 
     public CryptidMod() {
         // Register the setup method for modloading
@@ -38,6 +49,9 @@ public class CryptidMod
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        // register items
+        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void setup(final FMLCommonSetupEvent event)
@@ -80,6 +94,7 @@ public class CryptidMod
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
+
         }
     }
 }
