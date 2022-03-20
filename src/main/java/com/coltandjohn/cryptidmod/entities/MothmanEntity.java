@@ -4,8 +4,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.FleeSunGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.world.World;
 
 public class MothmanEntity extends CreatureEntity {
@@ -24,6 +23,12 @@ public class MothmanEntity extends CreatureEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new SwimGoal(this));
-        //flee sun, break block, avoid player, look at player, flee from cats
+        this.goalSelector.addGoal(3, new LookAtWithoutMovingGoal(this, ));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.2));
+        this.goalSelector.addGoal(4, new FleeSunGoal())
+        this.goalSelector.addGoal(5, new BreakBlockGoal())
+        this.goalSelector.addGoal(6, new AvoidEntityGoal<>()) //player
+        this.goalSelector.addGoal(7, new AvoidEntityGoal<>()) //cats?
+
     }
 }
